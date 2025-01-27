@@ -1,4 +1,5 @@
 ### VS Code ###
+.__pycache__
 .vscode/
 .idea/
 .env/
