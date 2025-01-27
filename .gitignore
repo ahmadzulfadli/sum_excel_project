@@ -1,5 +1,6 @@
 ### VS Code ###
 __pycache__/
+*.pycgit rm -r --cached __pycache__
 .vscode/
 .idea/
 .env/
