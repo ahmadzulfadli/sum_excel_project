@@ -1,0 +1,7 @@
+### VS Code ###
+.vscode/
+.idea/
+.env/
+*.xlsx
+*.png
+*.zip

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block konten %}
+    <div class="container-fluid py-4">
+        <div class="row mt-4">
+            <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
+                <div class="card z-index-2 h-100">
+                    <div class="card-header pb-0 pt-3 bg-transparent">
+                        <h6 class="text-capitalize">Sum Data Excel</h6>
+                    </div>
+                    <div class="card-body p-3">
+                        <!-- Menampilkan Flash Messages -->
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <div class="alert alert-info">
+                                    <ul>
+                                        {% for message in messages %}
+                                            <li>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+
+                        <!-- Tombol Download Hasil -->
+                        <button
+                                type="button"
+                                class="btn btn-primary mt-3"
+                                {% if not status %}disabled{% endif %}
+                                onclick="location.href='{{ url_for('download_excel', filename=filename) }}';">
+                            Download Excel
+                        </button>
+                        <button
+                                type="button"
+                                class="btn btn-primary mt-3"
+                                {% if not status %}disabled{% endif %}
+                                onclick="location.href='{{ url_for('download_img', filename=filename) }}';">
+                            Download Grafik
+                        </button>
+                        <a
+                                type="button"
+                                class="btn btn-secondary mt-3"
+                                href="{{ url_for('index') }}">
+                            Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,1 @@
+Folder ini berisi grafik hasil dari eksekusi script

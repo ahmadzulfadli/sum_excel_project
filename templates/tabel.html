@@ -1,0 +1,136 @@
+{% extends 'base.html' %} 
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link" href="/">
+    <div
+      class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+      <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+    </div>
+    <span class="nav-link-text ms-1">Dashboard</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="/tabel">
+    <div
+      class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+      <i
+        class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+    </div>
+    <span class="nav-link-text ms-1">Tables</span>
+  </a>
+</li>
+{% endblock %}
+{% block konten %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h6>SPDKH Data Table</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <style>
+                  tr th {
+                    text-align: center;
+                  }
+                </style>
+                <tr>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"></th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    NO
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    Temperature
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    Humidity
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    Moisture
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    CO Konsentration
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Rainfall
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Status
+                  </th>
+                  <th
+                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Time and Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <style>
+                  tr td p {
+                    text-align: center;
+                  }
+                </style>
+                {% for data in data %}
+                <tr>
+                  <td></td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">
+                      {{loop.revindex}}
+                    </p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">
+                      {{data.temperature}}&deg;C
+                    </p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">
+                      {{data.humidity}}%
+                    </p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">
+                      {{data.moisture}}%
+                    </p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">
+                      {{data.co}} ppm
+                    </p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">
+                      {{data.rainfall}} mm
+                    </p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">
+                      {{data.status}}
+                    </p>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">
+                      {{data.timestamp}}
+                    </p>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
