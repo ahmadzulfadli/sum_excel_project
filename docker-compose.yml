@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mywebsite:
+    build:
+      context: /home/ubuntu/..
+      dockerfile: Dockerfile
+    container_name: sum_excel_container
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: "1"
