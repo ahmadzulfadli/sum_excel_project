@@ -1,6 +1,5 @@
 from DBClass import *
 import uuid
-import os
 
 from DataProcessor import DataProcessor
 

@@ -3,13 +3,14 @@ version: '3.8'
 services:
   mywebsite:
     build:
-      context: /home/ubuntu/..
+      context: /home/ubuntu/dev/sum_excel_projext/
       dockerfile: Dockerfile
     container_name: sum_excel_container
     ports:
       - "8000:8000"
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-          cpus: "1"
+    networks:
+      - arif_net
+
+networks:
+  arif_net:
+    driver: bridge

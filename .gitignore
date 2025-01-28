@@ -3,7 +3,8 @@ __pycache__/
 *.pycgit rm -r --cached __pycache__
 .vscode/
 .idea/
-.env/
+.venv/
 *.xlsx
 *.png
 *.zip
+.env

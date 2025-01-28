@@ -1,13 +1,14 @@
 import os
 import pandas as pd
 import re
+from sympy import symbols, sympify
 
 from ExtractZip import ExtractZip
 from GenerateFile import GenerateFile
 
 
 class DataProcessor:
-    def __init__(self, input_transaction_id, input_sheet_name, input_column_list, input_header_data):
+    def __init__(self, input_transaction_id, input_sheet_name, input_column_list, input_header_data, input_formula):
         self.transaction_id = str(input_transaction_id)
         self.header_data_row = int(input_header_data)
         self.total_sum_e = 0
@@ -15,6 +16,7 @@ class DataProcessor:
         self.total_sum_g = 0
         self.sheet_name = str(input_sheet_name).strip()
         self.column_list = input_column_list
+        self.formula = input_formula
         self.failed_files = []
         self.results = []
         self.base_path = os.path.dirname(__file__)
@@ -40,8 +42,13 @@ class DataProcessor:
                 if column in df.columns:
                     df[column] = pd.to_numeric(df[column], errors='coerce')
                     column_sum = df[column].sum(skipna=True)
+                    test = df[column].sum(skipna=True)
+
+                    print(f"{file_name} Kolom: {column}, Jumlah: {test}")
+                    print(f"Data di kolom {column}: {df[column].head()}")
 
                     result = column_sum * 5 / 60000
+
                     results_dict[column] = result
 
                     if column == "DC Power PvPV1(W)":
@@ -54,6 +61,9 @@ class DataProcessor:
             self.results.append(results_dict)
         except Exception as e:
             self.failed_files.append({"file_name": file_name, "error": str(e)})
+
+    def show_result(self):
+        print(self.results)
 
     def process_all_files(self):
         for file_name in os.listdir(self.source_path):
@@ -68,8 +78,6 @@ class DataProcessor:
 
         self.results = sorted(self.results, key=lambda x: extract_number(x["File Name"]))
 
-    def get_results(self):
-        return self.results
 
     def display_failed_files(self):
         if self.failed_files:
@@ -87,18 +95,20 @@ class DataProcessor:
         self.process_all_files()
         self.sort_results()
         self.display_failed_files()
+        self.show_result()
 
-        generate_file = GenerateFile(self.results, self.transaction_id)
-        generate_file.generate_graph()
-        generate_file.generate_excel()
+        # generate_file = GenerateFile(self.results, self.transaction_id)
+        # generate_file.generate_graph()
+        # generate_file.generate_excel()
 
-        extract.rm_file_and_folder()
+        # extract.rm_file_and_folder()
 
-# if __name__ == "__main__":
-#     ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
-#     name = "Inverter History Report_SMSolar"
-#     a = input("Masukkan id: ")
-#     b = [col.strip() for col in ex.split(',')]
-#     c = input("Masukkan row number: ")
-#     proses = DataProcessor(a, name, b, c)
-#     proses.run()
+if __name__ == "__main__":
+    # ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
+    ex = "DC Power PvPV1(W)"
+    name = "Inverter History Report_SMSolar"
+    a = input("Masukkan id: ")
+    b = [col.strip() for col in ex.split(',')]
+    c = input("Masukkan row number: ")
+    proses = DataProcessor(a, name, b, c, "x * 5 / 60000")
+    proses.run()

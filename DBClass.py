@@ -1,17 +1,17 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify, send_file
+from dotenv import load_dotenv
+import os
+
 # objek flask
 app = Flask(__name__)
 
-# api-key
-app.secret_key = "djfljdfljfnkjsfhjfshjkfjfjfhjdhfdjhdfu"
+# Akses variabel dari file .env
+load_dotenv()
 
-# koneksi ke database
-userpass = "mysql+pymysql://nama_db:pass@"
-basedir = "host"
-dbname = "/excel_tools"
-
-app.config["SQLALCHEMY_DATABASE_URI"] = userpass + basedir + dbname
+# configurasi app
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
