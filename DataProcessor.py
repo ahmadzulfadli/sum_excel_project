@@ -6,7 +6,6 @@ from sympy import symbols, sympify
 from ExtractZip import ExtractZip
 from GenerateFile import GenerateFile
 
-
 class DataProcessor:
     def __init__(self, input_transaction_id, input_sheet_name, input_column_list, input_header_data, input_formula):
         self.transaction_id = str(input_transaction_id)
@@ -26,6 +25,13 @@ class DataProcessor:
         if not os.path.exists(self.source_path):
             print("Folder tidak ditemukan")
 
+    @staticmethod
+    def float_format(value):
+        if value == int(value):
+            return f"{int(value)}"
+        else:
+            return f"{value:.10f}".rstrip('0').rstrip('.')
+
     def process_file(self, file_path, file_name, column_list):
         try:
             df = pd.read_excel(file_path, sheet_name=self.sheet_name, engine="openpyxl",
@@ -42,14 +48,14 @@ class DataProcessor:
                 if column in df.columns:
                     df[column] = pd.to_numeric(df[column], errors='coerce')
                     column_sum = df[column].sum(skipna=True)
-                    test = df[column].sum(skipna=True)
 
-                    print(f"{file_name} Kolom: {column}, Jumlah: {test}")
-                    print(f"Data di kolom {column}: {df[column].head()}")
+                    result = column_sum
+                    if self.formula is None or self.formula.strip():
+                        x = symbols('x')
+                        expr = sympify(self.formula)
+                        result = expr.subs(x, float(column_sum))
 
-                    result = column_sum * 5 / 60000
-
-                    results_dict[column] = result
+                    results_dict[column] = self.float_format(result)
 
                     if column == "DC Power PvPV1(W)":
                         self.total_sum_e += result
@@ -57,13 +63,9 @@ class DataProcessor:
                         self.total_sum_f += result
                     elif column == "DC Power PvPV3(W)":
                         self.total_sum_g += result
-
             self.results.append(results_dict)
         except Exception as e:
             self.failed_files.append({"file_name": file_name, "error": str(e)})
-
-    def show_result(self):
-        print(self.results)
 
     def process_all_files(self):
         for file_name in os.listdir(self.source_path):
@@ -95,10 +97,9 @@ class DataProcessor:
         self.process_all_files()
         self.sort_results()
         self.display_failed_files()
-        self.show_result()
 
-        # generate_file = GenerateFile(self.results, self.transaction_id)
-        # generate_file.generate_graph()
+        generate_file = GenerateFile(self.results, self.transaction_id, self.column_list)
+        generate_file.generate_graph()
         # generate_file.generate_excel()
 
         # extract.rm_file_and_folder()
@@ -110,5 +111,5 @@ if __name__ == "__main__":
     a = input("Masukkan id: ")
     b = [col.strip() for col in ex.split(',')]
     c = input("Masukkan row number: ")
-    proses = DataProcessor(a, name, b, c, "x * 5 / 60000")
+    proses = DataProcessor(a, name, b, c, "x*5/60000")
     proses.run()
