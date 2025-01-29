@@ -74,7 +74,7 @@ def upload_file():
 
         # Proses file
         column_list = [col.strip() for col in column_name.split(',')]
-        process = DataProcessor(transaction_id, sheet_name, column_list, header_number)
+        process = DataProcessor(transaction_id, sheet_name, column_list, header_number, columns_formula)
         process.run()
 
         # Flash message untuk konfirmasi
@@ -84,6 +84,9 @@ def upload_file():
         flash('File harus berformat ZIP.')
         return redirect(url_for('index'))
 
+@app.route('/panduan')
+def panduan():
+    return render_template('panduan.html')
 
 @app.route('/success')
 def success():
