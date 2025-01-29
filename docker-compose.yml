@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: sum_excel_container
     ports:
-      - "8000:8000"
+      - "7005:7005"
     networks:
       - sum_excel
 
