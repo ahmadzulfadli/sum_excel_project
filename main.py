@@ -84,6 +84,27 @@ def upload_file():
         flash('File harus berformat ZIP.')
         return redirect(url_for('index'))
 
+@app.route('/comment', methods=['POST'])
+def send_comment():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    comment = request.form.get('comment')
+
+    create = SumExcelComment(
+        name=name,
+        email=email,
+        comment=comment,
+    )
+    try:
+        db.session.add(create)
+        db.session.commit()
+        flash("Kembali ke halaman utama dengan mengklik tombol \"Kembali ke Halaman Utama\" di bawah")
+        return redirect(url_for('panduan'))
+    except Exception as e:
+        print(e)
+        flash("Gagal memproses data")
+        return redirect(url_for('panduan'))
+
 @app.route('/panduan')
 def panduan():
     return render_template('panduan.html')
@@ -103,6 +124,7 @@ def download_excel():
         return send_file(path_save, as_attachment=True)
     else:
         flash('File results belum tersedia.')
+        return redirect(url_for('success', status=True, filename=filename))
 
 
 @app.route('/download-grafik')
@@ -113,6 +135,7 @@ def download_img():
         return send_file(path_save, as_attachment=True)
     else:
         flash('File results belum tersedia.')
+        return redirect(url_for('success', status=True, filename=filename))
 
 
 if __name__ == '__main__':

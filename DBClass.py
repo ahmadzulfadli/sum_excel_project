@@ -42,3 +42,17 @@ class SumExcelTransactions(db.Model):
         self.address = address
         self.email = email
         self.status_transaction = status_transaction
+
+class SumExcelComment(db.Model):
+    __tablename__ = 'sum_excel_comment'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=True)
+    email = db.Column(db.String(100), nullable=True)
+    comment = db.Column(db.Text, nullable=True)
+    timestamp = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
+
+    def __init__(self, name, email, comment):
+        self.name = name
+        self.email = email
+        self.comment = comment

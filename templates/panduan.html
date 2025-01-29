@@ -1,118 +1,145 @@
 {% extends 'base.html' %}
 {% block konten %}
     <div class="container-fluid py-4">
-        <div class="row mt-4">
-            <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
-                <div class="card z-index-2 h-100">
-                    <div class="card-body p-3">
-                        <!-- Menampilkan Flash Messages -->
-                        {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                                <div class="alert alert-info">
-                                    <ul>
-                                        {% for message in messages %}
-                                            <li>{{ message }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
-                        {% endwith %}
+    <div class="row mt-4">
+        <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
+            <div class="card z-index-2 h-100">
+                <div class="card-body p-3">
+                    <!-- Menampilkan Flash Messages -->
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <div class="alert alert-info">
+                                <ul>
+                                    {% for message in messages %}
+                                        <li>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
 
-                        <div class="container mt-4">
-                            <center>
-                                <h2>Panduan Pengisian Formulir Sum Excel Project</h2>
-                            </center>
-                            <hr>
+                    <div class="container mt-4">
+                        <center>
+                            <h2>Panduan Pengisian Formulir Sum Excel Project</h2>
+                        </center>
+                        <hr>
 
-                            <h4>1. Unggah File ZIP</h4>
-                            <p><strong>Label:</strong> Unggah File ZIP</p>
-                            <p><strong>Input:</strong> Pilih file ZIP yang berisi dokumen Excel yang akan diproses. Pastikan struktur foldernya seperti berikut:</p>
-                            <pre>
+                        <h4>1. Unggah File ZIP</h4>
+                        <p><strong>Label:</strong> Unggah File ZIP</p>
+                        <p><strong>Input:</strong> Pilih file ZIP yang berisi dokumen Excel yang akan diproses.
+                            Pastikan struktur foldernya seperti berikut:</p>
+                        <pre>
                             └── data_contoh
                                 ├── Tanggal (1).xlsx
                                 ├── Tanggal (2).xlsx
                                 ├── ...
                                 ├── Tanggal (31).xlsx
                             </pre>
-                            <p><strong>Format yang diterima:</strong> Hanya file dengan ekstensi <code>.zip</code>.</p>
-                            <p><strong>Wajib diisi:</strong> ✅ Ya (Tidak dapat dikosongkan).</p>
-                            <p><strong>Tips:</strong> Pastikan file ZIP berisi dokumen Excel yang valid.</p>
-                            <hr>
+                        <p><strong>Format yang diterima:</strong> Hanya file dengan ekstensi <code>.zip</code>.</p>
+                        <p><strong>Wajib diisi:</strong> ✅ Ya (Tidak dapat dikosongkan).</p>
+                        <p><strong>Tips:</strong> Pastikan file ZIP berisi dokumen Excel yang valid.</p>
+                        <hr>
 
-                            <h4>2. Nama Sheet Pada Dokumen</h4>
-                            <p><strong>Label:</strong> Nama Sheet Pada Dokumen</p>
-                            <p><strong>Input:</strong> Masukkan nama sheet dalam dokumen Excel yang akan diproses.</p>
-                            <p><strong>Contoh Input:</strong> <code>Data_Siswa</code></p>
-                            <p><strong>Wajib diisi:</strong> ✅ Ya</p>
-                            <p><strong>Tips:</strong> Pastikan nama sheet sesuai dengan yang ada dalam file Excel.</p>
-                            <hr>
+                        <h4>2. Nama Sheet Pada Dokumen</h4>
+                        <p><strong>Label:</strong> Nama Sheet Pada Dokumen</p>
+                        <p><strong>Input:</strong> Masukkan nama sheet dalam dokumen Excel yang akan diproses.</p>
+                        <p><strong>Contoh Input:</strong> <code>Data_Siswa</code></p>
+                        <p><strong>Wajib diisi:</strong> ✅ Ya</p>
+                        <p><strong>Tips:</strong> Pastikan nama sheet sesuai dengan yang ada dalam file Excel.</p>
+                        <hr>
 
-                            <h4>3. Nama Kolom</h4>
-                            <p><strong>Label:</strong> Nama Kolom</p>
-                            <p><strong>Input:</strong> Masukkan nama kolom header yang ingin dihitung atau diproses.</p>
-                            <p><strong>Format:</strong> Jika lebih dari satu kolom, pisahkan dengan koma
-                                (<code>, </code>).</p>
-                            <p><strong>Contoh Input:</strong> <code>Nilai Matematika, Nilai Fisika</code></p>
-                            <p><strong>Wajib diisi:</strong> ✅ Ya</p>
-                            <p><strong>Tips:</strong> Nama kolom harus sesuai dengan header dalam file Excel.</p>
-                            <hr>
+                        <h4>3. Nama Kolom</h4>
+                        <p><strong>Label:</strong> Nama Kolom</p>
+                        <p><strong>Input:</strong> Masukkan nama kolom header yang ingin dihitung atau diproses.</p>
+                        <p><strong>Format:</strong> Jika lebih dari satu kolom, pisahkan dengan koma
+                            (<code>, </code>).</p>
+                        <p><strong>Contoh Input:</strong> <code>Nilai Matematika, Nilai Fisika</code></p>
+                        <p><strong>Wajib diisi:</strong> ✅ Ya</p>
+                        <p><strong>Tips:</strong> Nama kolom harus sesuai dengan header dalam file Excel.</p>
+                        <hr>
 
-                            <h4>4. Nomor Kolom Pada Header</h4>
-                            <p><strong>Label:</strong> Nomor Kolom Pada Header</p>
-                            <p><strong>Input:</strong> Masukkan nomor kolom yang sesuai dengan header dalam Excel.</p>
-                            <p><strong>Format:</strong> Angka (integer).</p>
-                            <p><strong>Contoh Input:</strong> <code>2</code></p>
-                            <p><strong>Wajib diisi:</strong> ✅ Ya</p>
-                            <p><strong>Tips:</strong> Gunakan angka yang sesuai dengan posisi kolom dalam file Excel.
-                            </p>
-                            <hr>
+                        <h4>4. Nomor Kolom Pada Header</h4>
+                        <p><strong>Label:</strong> Nomor Kolom Pada Header</p>
+                        <p><strong>Input:</strong> Masukkan nomor kolom yang sesuai dengan header dalam Excel.</p>
+                        <p><strong>Format:</strong> Angka (integer).</p>
+                        <p><strong>Contoh Input:</strong> <code>2</code></p>
+                        <p><strong>Wajib diisi:</strong> ✅ Ya</p>
+                        <p><strong>Tips:</strong> Gunakan angka yang sesuai dengan posisi kolom dalam file Excel.
+                        </p>
+                        <hr>
 
-                            <h4>5. Rumus Untuk Kolom</h4>
-                            <p><strong>Label:</strong> Rumus Untuk Kolom</p>
-                            <p><strong>Input:</strong> Masukkan rumus untuk menghitung nilai dalam kolom.</p>
-                            <p><strong>Format:</strong> Gunakan huruf <code>x</code> sebagai representasi nilai dalam
-                                kolom.</p>
-                            <p><strong>Contoh Input:</strong> <code>2*x + 5</code></p>
-                            <p><strong>Wajib diisi:</strong> ✅ Ya</p>
-                            <p><strong>Tips:</strong> Pastikan rumus hanya mengandung angka, <code>x</code>, dan
-                                operator matematika (+, -, *, /, ()). Rumus ini akan di implementasikan kepada setiap kolom</p>
-                            <hr>
+                        <h4>5. Rumus Untuk Kolom</h4>
+                        <p><strong>Label:</strong> Rumus Untuk Kolom</p>
+                        <p><strong>Input:</strong> Masukkan rumus untuk menghitung nilai dalam kolom.</p>
+                        <p><strong>Format:</strong> Gunakan huruf <code>x</code> sebagai representasi nilai dalam
+                            kolom.</p>
+                        <p><strong>Contoh Input:</strong> <code>2*x + 5</code></p>
+                        <p><strong>Wajib diisi:</strong> ✅ Ya</p>
+                        <p><strong>Tips:</strong> Pastikan rumus hanya mengandung angka, <code>x</code>, dan
+                            operator matematika (+, -, *, /, ()). Rumus ini akan di implementasikan kepada setiap
+                            kolom</p>
+                        <hr>
 
-                            <h4>6. Nama Lengkap</h4>
-                            <p><strong>Label:</strong> Nama Lengkap</p>
-                            <p><strong>Input:</strong> Masukkan nama lengkap Anda.</p>
-                            <p><strong>Contoh Input:</strong> <code>John Doe</code></p>
-                            <p><strong>Wajib diisi:</strong> ✅ Ya</p>
-                            <hr>
+                        <h4>6. Nama Lengkap</h4>
+                        <p><strong>Label:</strong> Nama Lengkap</p>
+                        <p><strong>Input:</strong> Masukkan nama lengkap Anda.</p>
+                        <p><strong>Contoh Input:</strong> <code>John Doe</code></p>
+                        <p><strong>Wajib diisi:</strong> ✅ Ya</p>
+                        <hr>
 
-                            <h4>7. Alamat</h4>
-                            <p><strong>Label:</strong> Alamat</p>
-                            <p><strong>Input:</strong> Masukkan alamat lengkap Anda.</p>
-                            <p><strong>Contoh Input:</strong> <code>Jl. Merdeka No. 10, Jakarta</code></p>
-                            <p><strong>Wajib diisi:</strong> ✅ Ya</p>
-                            <hr>
+                        <h4>7. Alamat</h4>
+                        <p><strong>Label:</strong> Alamat</p>
+                        <p><strong>Input:</strong> Masukkan alamat lengkap Anda.</p>
+                        <p><strong>Contoh Input:</strong> <code>Jl. Merdeka No. 10, Jakarta</code></p>
+                        <p><strong>Wajib diisi:</strong> ✅ Ya</p>
+                        <hr>
 
-                            <h4>8. Email</h4>
-                            <p><strong>Label:</strong> Email</p>
-                            <p><strong>Input:</strong> Masukkan alamat email yang valid.</p>
-                            <p><strong>Format:</strong> Harus dalam format email yang benar
-                                (<code>example@email.com</code>).</p>
-                            <p><strong>Contoh Input:</strong> <code>johndoe@example.com</code></p>
-                            <p><strong>Wajib diisi:</strong> ✅ Ya</p>
-                            <hr>
+                        <h4>8. Email</h4>
+                        <p><strong>Label:</strong> Email</p>
+                        <p><strong>Input:</strong> Masukkan alamat email yang valid.</p>
+                        <p><strong>Format:</strong> Harus dalam format email yang benar
+                            (<code>example@email.com</code>).</p>
+                        <p><strong>Contoh Input:</strong> <code>johndoe@example.com</code></p>
+                        <p><strong>Wajib diisi:</strong> ✅ Ya</p>
+                        <hr>
 
-                            <h4>9. Submit Form</h4>
-                            <p><strong>Tombol:</strong>
-                                <button class="btn btn-primary m-lg-3">Process</button>
-                            </p>
-                            <p><strong>Fungsi:</strong> Mengirimkan data ke server untuk diproses.</p>
+                        <h4>9. Submit Form</h4>
+                        <p><strong>Tombol:</strong>
+                            <button class="btn btn-primary m-lg-3">Process</button>
+                        </p>
+                        <p><strong>Fungsi:</strong> Mengirimkan data ke server untuk diproses.</p>
 
-                            <a
-                                type="button"
-                                class="btn btn-secondary mt-5"
-                                href="{{ url_for('index') }}">
-                                Kembali
-                            </a>
+                        <!-- Garis pembatas sebelum kolom komentar -->
+                        <hr class="mt-5 mb-4" style="border-top: 3px solid #000;">
+
+                        <!-- Form untuk mengirimkan komentar -->
+                        <div class="mt-4">
+                            <h4>Kirimkan Komentar Anda</h4>
+                            <form action="{{ url_for('send_comment') }}" method="POST" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="nameInput" class="form-label">Nama Anda</label>
+                                    <input type="text" class="form-control" id="nameInput" name="name"
+                                           placeholder="Masukkan Nama Anda" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="emailInput" class="form-label">Email Anda</label>
+                                    <input type="email" class="form-control" id="emailInput" name="email"
+                                           placeholder="Masukkan Email Anda" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="commentInput" class="form-label">Komentar Anda</label>
+                                    <textarea class="form-control" id="commentInput" name="comment" rows="4"
+                                              placeholder="Masukkan komentar atau saran Anda di sini..."
+                                              required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Kirim Komentar</button>
+                                <a
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        href="{{ url_for('index') }}">
+                                    Kembali ke Halaman Utama
+                                </a>
+                            </form>
                         </div>
                     </div>
                 </div>

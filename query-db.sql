@@ -19,8 +19,20 @@ CREATE TABLE sum_excel_transactions (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE sum_excel_comment (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) default NULL,
+    email varchar(100) default null,
+    comment text default null,
+  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
 select *
 from sum_excel_transactions ;
+
+select *
+from sum_excel_comment;
 
 
 
