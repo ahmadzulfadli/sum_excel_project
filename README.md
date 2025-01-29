@@ -2,6 +2,8 @@
 
 Skrip ini digunakan untuk memproses file Excel yang berisi data dan menghasilkan output dalam bentuk file Excel baru serta grafik.
 
+Berikut adalah link website: https://excel.ahmadzulfadli.online
+
 ## Fitur
 
 - Menghitung total kolom yang relevan.
