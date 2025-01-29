@@ -25,17 +25,19 @@ class SumExcelTransactions(db.Model):
     sheet_name = db.Column(db.String(100), nullable=True)
     column_name = db.Column(db.Text, nullable=True)
     header_number = db.Column(db.Integer, nullable=True)
+    columns_formula = db.Column(db.String(100), nullable=True)
     name = db.Column(db.String(100), nullable=True)
     address = db.Column(db.String(255), nullable=True)
     email = db.Column(db.String(100), nullable=True)
     status_transaction = db.Column(db.String(100), nullable=True)
     timestamp = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
 
-    def __init__(self, transaction_id, sheet_name, column_name, header_number, name, address, email, status_transaction):
+    def __init__(self, transaction_id, sheet_name, column_name, header_number, name, address, email, status_transaction, columns_formula):
         self.transaction_id = transaction_id
         self.sheet_name = sheet_name
         self.column_name = column_name
         self.header_number = header_number
+        self.columns_formula = columns_formula
         self.name = name
         self.address = address
         self.email = email

@@ -1,13 +1,16 @@
 import os
+
 import pandas as pd
 import re
 from sympy import symbols, sympify
+import warnings
 
 from ExtractZip import ExtractZip
 from GenerateFile import GenerateFile
 
+
 class DataProcessor:
-    def __init__(self, input_transaction_id, input_sheet_name, input_column_list, input_header_data, input_formula):
+    def __init__(self, input_transaction_id, input_sheet_name, input_column_list, input_header_data, input_formula = ""):
         self.transaction_id = str(input_transaction_id)
         self.header_data_row = int(input_header_data)
         self.total_sum_e = 0
@@ -22,20 +25,27 @@ class DataProcessor:
         self.source_path = rf"{self.base_path}/data/exstract/{self.transaction_id}"
 
     def validate_folder(self):
+        result = True
         if not os.path.exists(self.source_path):
             print("Folder tidak ditemukan")
+            result = False
+        return result
 
     @staticmethod
     def float_format(value):
         if value == int(value):
             return f"{int(value)}"
         else:
-            return f"{value:.10f}".rstrip('0').rstrip('.')
+            return f"{value:.3f}".rstrip('0').rstrip('.')
+
+    def read_excel(self, file, engine=None):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            return pd.read_excel(file, sheet_name=self.sheet_name, engine=engine, header=self.header_data_row)
 
     def process_file(self, file_path, file_name, column_list):
         try:
-            df = pd.read_excel(file_path, sheet_name=self.sheet_name, engine="openpyxl",
-                               header=self.header_data_row)
+            df = self.read_excel(file_path, "openpyxl")
 
             missing_columns = [col for col in column_list if col not in df.columns]
             if missing_columns:
@@ -93,23 +103,24 @@ class DataProcessor:
         extract = ExtractZip(self.transaction_id)
         extract.run()
 
-        self.validate_folder()
-        self.process_all_files()
-        self.sort_results()
-        self.display_failed_files()
+        status = self.validate_folder()
+        if status:
+            self.process_all_files()
+            self.sort_results()
+            self.display_failed_files()
 
-        generate_file = GenerateFile(self.results, self.transaction_id, self.column_list)
-        generate_file.generate_graph()
-        # generate_file.generate_excel()
+            generate_file = GenerateFile(self.results, self.transaction_id, self.column_list)
+            generate_file.generate_graph()
+            generate_file.generate_excel()
 
-        # extract.rm_file_and_folder()
+            extract.rm_file_and_folder()
 
-if __name__ == "__main__":
-    # ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
-    ex = "DC Power PvPV1(W)"
-    name = "Inverter History Report_SMSolar"
-    a = input("Masukkan id: ")
-    b = [col.strip() for col in ex.split(',')]
-    c = input("Masukkan row number: ")
-    proses = DataProcessor(a, name, b, c, "x*5/60000")
-    proses.run()
+# if __name__ == "__main__":
+#     # ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
+#     ex = "DC Power PvPV1(W)"
+#     name = "Inverter History Report_SMSolar"
+#     a = input("Masukkan id: ")
+#     b = [col.strip() for col in ex.split(',')]
+#     c = input("Masukkan row number: ")
+#     proses = DataProcessor(a, name, b, c)
+#     proses.run()

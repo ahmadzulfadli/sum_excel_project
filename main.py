@@ -1,11 +1,16 @@
+from sympy import sympify
+
 from DBClass import *
 import uuid
+import re
 
 from DataProcessor import DataProcessor
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -21,6 +26,7 @@ def upload_file():
     sheet_name = request.form.get('sheet_name')
     column_name = request.form.get('column_name')
     header_number = request.form.get('header_number')
+    columns_formula = request.form.get('columns_formula').lower()
     name = request.form.get('name')
     address = request.form.get('address')
     email = request.form.get('email')
@@ -31,6 +37,18 @@ def upload_file():
 
     if file.filename == '':
         flash('Tidak ada file yang dipilih.')
+        return redirect(url_for('index'))
+
+    columns_formula = re.sub(r'\s+', ' ', columns_formula)
+    if re.search(r'[^x0-9+\-*/(). ]', columns_formula):
+        flash("Rumus hanya boleh mengandung 'x', angka, dan operator matematika.")
+        return redirect(url_for('index'))
+
+    try:
+        sympify(columns_formula)
+    except Exception as e:
+        print(e)
+        flash("Rumus Yang anda masukkan salah, mohon periksa lagi dengan baik.")
         return redirect(url_for('index'))
 
     if file and file.filename.endswith('.zip'):
@@ -44,6 +62,7 @@ def upload_file():
             sheet_name=sheet_name,
             column_name=column_name,
             header_number=header_number,
+            columns_formula=columns_formula,
             name=name,
             address=address,
             email=email,
@@ -65,11 +84,13 @@ def upload_file():
         flash('File harus berformat ZIP.')
         return redirect(url_for('index'))
 
+
 @app.route('/success')
 def success():
     status = request.args.get('status')
     filename = request.args.get('filename')
     return render_template('success.html', status=status, filename=filename)
+
 
 @app.route('/download-excel')
 def download_excel():
@@ -80,6 +101,7 @@ def download_excel():
     else:
         flash('File results belum tersedia.')
 
+
 @app.route('/download-grafik')
 def download_img():
     filename = request.args.get('filename')
@@ -88,6 +110,7 @@ def download_img():
         return send_file(path_save, as_attachment=True)
     else:
         flash('File results belum tersedia.')
+
 
 if __name__ == '__main__':
     app.run()
