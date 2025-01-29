@@ -1,8 +1,10 @@
 ### VS Code ###
 __pycache__/
+*.pycgit
 .vscode/
 .idea/
-.env/
+.venv/
 *.xlsx
 *.png
 *.zip
+.env

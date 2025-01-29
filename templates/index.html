@@ -1,61 +1,86 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% block konten %}
-<div class="container-fluid py-4">
-  <div class="row mt-4">
-    <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
-      <div class="card z-index-2 h-100">
-        <div class="card-header pb-0 pt-3 bg-transparent">
-          <h6 class="text-capitalize">Sum Data Excel</h6>
-        </div>
-        <div class="card-body p-3">
-          <!-- Menampilkan Flash Messages -->
-          {% with messages = get_flashed_messages() %}
-            {% if messages %}
-              <div class="alert alert-info">
-                <ul>
-                  {% for message in messages %}
-                    <li>{{ message }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            {% endif %}
-          {% endwith %}
+    <div class="container-fluid py-4">
+        <div class="row mt-4">
+            <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
+                <div class="card z-index-2 h-100">
+                    <center>
+                        <div class="card-header pb-0 pt-3 bg-transparent">
+                            <h2 class="text-capitalize">Sum Data Excel Project</h2>
+                        </div>
+                    </center>
+                    <div class="card-body p-3">
+                        <!-- Menampilkan Flash Messages -->
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <div class="alert alert-info">
+                                    <ul>
+                                        {% for message in messages %}
+                                            <li>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
 
-          <!-- Form untuk unggah file -->
-          <form action="/upload" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-              <label for="fileInput" class="form-label">Unggah File ZIP</label>
-              <input type="file" class="form-control" id="fileInput" name="uploaded_file" accept=".zip" required>
+                        <!-- Form untuk unggah file -->
+                        <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="fileInput" class="form-label">Unggah File ZIP</label>
+                                <input type="file" class="form-control" id="fileInput" name="uploaded_file"
+                                       accept=".zip" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nameInput" class="form-label">Nama Sheet Pada Dokumen</label>
+                                <input type="text" class="form-control" id="nameInput" name="sheet_name"
+                                       placeholder="Masukkan Nama Sheet" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nameInput" class="form-label">Nama Kolom</label>
+                                <input type="text" class="form-control" id="nameInput" name="column_name"
+                                       placeholder="Masukkan nama kolom header, jika header yang hendak dihitung lebih dari satu pisahkan dengan koma (,)"
+                                       required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nameInput" class="form-label">Nomor Kolom Pada Header</label>
+                                <input type="number" class="form-control" id="nameInput" name="header_number"
+                                       placeholder="Masukkan Nomor Kolom Header" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nameInput" class="form-label">Rumus Untuk Kolom</label>
+                                <input type="text" class="form-control" id="nameInput" name="columns_formula"
+                                       placeholder="Masukkan Rumus dengan asumsi bahwa column di wakili dengan x (Kosongkan jika tidak ada rumus tertentu)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="nameInput" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="nameInput" name="name"
+                                       placeholder="Masukkan Nama" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="addressInput" class="form-label">Alamat</label>
+                                <input type="text" class="form-control" id="addressInput" name="address"
+                                       placeholder="Masukkan Alamat" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailInput" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="emailInput" name="email"
+                                       placeholder="Masukkan Email" required>
+                            </div>
+
+                            <p>
+                                Harap baca panduan sebelum anda memuliai untuk memprose data.
+                            </p>
+                            <button type="submit" class="btn btn-primary">Process</button>
+                            <a
+                                    type="button"
+                                    class="btn btn-info"
+                                    href="{{ url_for('panduan') }}">
+                                Panduan
+                            </a>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-              <label for="nameInput" class="form-label">Nama Sheet Pada Dokumen</label>
-              <input type="text" class="form-control" id="nameInput" name="sheet_name" placeholder="Masukkan Nama Sheet" required>
-            </div>
-            <div class="mb-3">
-              <label for="nameInput" class="form-label">Nama Kolom</label>
-              <input type="text" class="form-control" id="nameInput" name="column_name" placeholder="Masukkan Nomor Kolom Header" required>
-            </div>
-            <div class="mb-3">
-              <label for="nameInput" class="form-label">Nomor Kolom Pada Header</label>
-              <input type="number" class="form-control" id="nameInput" name="header_number" placeholder="Masukkan Nomor Kolom Header" required>
-            </div>
-            <div class="mb-3">
-              <label for="nameInput" class="form-label">Nama Lengkap</label>
-              <input type="text" class="form-control" id="nameInput" name="name" placeholder="Masukkan Nama" required>
-            </div>
-            <div class="mb-3">
-              <label for="addressInput" class="form-label">Alamat</label>
-              <input type="text" class="form-control" id="addressInput" name="address" placeholder="Masukkan Alamat" required>
-            </div>
-            <div class="mb-3">
-              <label for="emailInput" class="form-label">Email</label>
-              <input type="email" class="form-control" id="emailInput" name="email" placeholder="Masukkan Email" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Process</button>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
-</div>
 {% endblock %}

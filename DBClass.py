@@ -1,17 +1,17 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify, send_file
+from dotenv import load_dotenv
+import os
+
 # objek flask
 app = Flask(__name__)
 
-# api-key
-app.secret_key = "djfljdfljfnkjsfhjfshjkfjfjfhjdhfdjhdfu"
+# Akses variabel dari file .env
+load_dotenv()
 
-# koneksi ke database
-userpass = "mysql+pymysql://nama_db:pass@"
-basedir = "host"
-dbname = "/excel_tools"
-
-app.config["SQLALCHEMY_DATABASE_URI"] = userpass + basedir + dbname
+# configurasi app
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -25,18 +25,34 @@ class SumExcelTransactions(db.Model):
     sheet_name = db.Column(db.String(100), nullable=True)
     column_name = db.Column(db.Text, nullable=True)
     header_number = db.Column(db.Integer, nullable=True)
+    columns_formula = db.Column(db.String(100), nullable=True)
     name = db.Column(db.String(100), nullable=True)
     address = db.Column(db.String(255), nullable=True)
     email = db.Column(db.String(100), nullable=True)
     status_transaction = db.Column(db.String(100), nullable=True)
     timestamp = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
 
-    def __init__(self, transaction_id, sheet_name, column_name, header_number, name, address, email, status_transaction):
+    def __init__(self, transaction_id, sheet_name, column_name, header_number, name, address, email, status_transaction, columns_formula):
         self.transaction_id = transaction_id
         self.sheet_name = sheet_name
         self.column_name = column_name
         self.header_number = header_number
+        self.columns_formula = columns_formula
         self.name = name
         self.address = address
         self.email = email
         self.status_transaction = status_transaction
+
+class SumExcelComment(db.Model):
+    __tablename__ = 'sum_excel_comment'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=True)
+    email = db.Column(db.String(100), nullable=True)
+    comment = db.Column(db.Text, nullable=True)
+    timestamp = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
+
+    def __init__(self, name, email, comment):
+        self.name = name
+        self.email = email
+        self.comment = comment
