@@ -1,0 +1,39 @@
+name: Deploy to Server
+
+on:
+  push:
+    tags:
+      - '*'  # Hanya memicu jika ada tag baru
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Check if Tag is from Main Branch
+        run: |
+          BASE_BRANCH=$(git branch -r --contains $GITHUB_REF | grep "origin/main" || true)
+          if [ -z "$BASE_BRANCH" ]; then
+            echo "Tag is not from main branch. Skipping deployment."
+            exit 1
+          fi
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Server
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            cd /home/ubuntu/dev/sum_excel_project/
+            git fetch --tags
+            git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
+            docker-compose down --rmi all
+            docker-compose up -d
+          EOF
