@@ -47,8 +47,8 @@ class GenerateFile:
 
         total_sums = {f"Total {col}": [df_results[col].sum()] for col in missing_columns}
 
-        df_monthly = pd.DataFrame(total_sums)
+        df_total = pd.DataFrame(total_sums)
 
         with pd.ExcelWriter(self.result_excel_path, engine='openpyxl') as writer:
-            df_results.to_excel(writer, sheet_name="Hasil Harian", index=False)
-            df_monthly.to_excel(writer, sheet_name="Hasil Bulanan", index=False)
+            df_results.to_excel(writer, sheet_name="Hasil File", index=False)
+            df_total.to_excel(writer, sheet_name="Hasil Total File", index=False)

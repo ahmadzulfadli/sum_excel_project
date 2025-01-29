@@ -100,8 +100,8 @@ class DataProcessor:
             print("\nSemua file berhasil diproses.")
 
     def run(self):
-        extract = ExtractZip(self.transaction_id)
-        extract.run()
+        # extract = ExtractZip(self.transaction_id)
+        # extract.run()
 
         status = self.validate_folder()
         if status:
@@ -113,14 +113,14 @@ class DataProcessor:
             generate_file.generate_graph()
             generate_file.generate_excel()
 
-            extract.rm_file_and_folder()
+            # extract.rm_file_and_folder()
 
-# if __name__ == "__main__":
-#     # ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
-#     ex = "DC Power PvPV1(W)"
-#     name = "Inverter History Report_SMSolar"
-#     a = input("Masukkan id: ")
-#     b = [col.strip() for col in ex.split(',')]
-#     c = input("Masukkan row number: ")
-#     proses = DataProcessor(a, name, b, c)
-#     proses.run()
+if __name__ == "__main__":
+    # ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
+    ex = "DC Power PvPV1(W)"
+    name = "Inverter History Report_SMSolar"
+    a = input("Masukkan id: ")
+    b = [col.strip() for col in ex.split(',')]
+    c = input("Masukkan row number: ")
+    proses = DataProcessor(a, name, b, c)
+    proses.run()
