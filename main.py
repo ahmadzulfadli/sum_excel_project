@@ -44,18 +44,17 @@ def upload_file():
         flash("Rumus hanya boleh mengandung 'x', angka, dan operator matematika.")
         return redirect(url_for('index'))
 
-    try:
-        sympify(columns_formula)
-    except Exception as e:
-        print(e)
-        flash("Rumus Yang anda masukkan salah, mohon periksa lagi dengan baik.")
-        return redirect(url_for('index'))
+    print (f"columns formula: {columns_formula}")
+
+    if columns_formula.strip():
+        try:
+            sympify(columns_formula)
+        except Exception as e:
+            print(e)
+            flash("Rumus Yang anda masukkan salah, mohon periksa lagi dengan baik.")
+            return redirect(url_for('index'))
 
     if file and file.filename.endswith('.zip'):
-        filename = f"{transaction_id}.zip"
-        save_path = os.path.join(path_save, filename)
-        file.save(save_path)
-
         # save exstract to database
         create_data = SumExcelTransactions(
             transaction_id=transaction_id,
@@ -68,9 +67,17 @@ def upload_file():
             email=email,
             status_transaction=f"File berhasil diunggah oleh {name}"
         )
+        try:
+            db.session.add(create_data)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            flash("Gagal memproses data")
+            return redirect(url_for('index'))
 
-        db.session.add(create_data)
-        db.session.commit()
+        filename = f"{transaction_id}.zip"
+        save_path = os.path.join(path_save, filename)
+        file.save(save_path)
 
         # Proses file
         column_list = [col.strip() for col in column_name.split(',')]
