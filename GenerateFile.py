@@ -20,36 +20,41 @@ class GenerateFile:
             os.makedirs(f"{self.base_path}/data/results/excel")
 
     def generate_graph(self):
-        df_results = pd.DataFrame(self.data)
-        label_x = df_results["File Name"].str.replace('.xlsx', '', regex=False)
-        plt.figure(figsize=(10, 6))
-        for column in self.list_columns:
-            df_results[column] = pd.to_numeric(df_results[column], errors='coerce')
-            plt.plot(label_x, df_results[column], label=column, marker='.')
-        plt.title(f"Data {self.folder_name}".upper())
-        plt.xlabel('Sumbu X')
-        plt.ylabel('Sumbu Y')
-        plt.xticks(rotation=90)
-        plt.subplots_adjust(bottom=0.3)
-        plt.legend()
-        plt.grid()
-        plt.savefig(self.result_img_path)
-        plt.close()
+        try:
+            df_results = pd.DataFrame(self.data)
+            label_x = df_results["File Name"].str.replace('.xlsx', '', regex=False)
+            plt.figure(figsize=(10, 6))
+            for column in self.list_columns:
+                df_results[column] = pd.to_numeric(df_results[column], errors='coerce')
+                plt.plot(label_x, df_results[column], label=column, marker='.')
+            plt.title(f"Data {self.folder_name}".upper())
+            plt.xlabel('Sumbu X')
+            plt.ylabel('Sumbu Y')
+            plt.xticks(rotation=90)
+            plt.subplots_adjust(bottom=0.3)
+            plt.legend()
+            plt.grid()
+            plt.savefig(self.result_img_path)
+            plt.close()
+        except ValueError:
+            raise ValueError("Gagal generate grafik")
 
     def generate_excel(self):
-        if os.path.exists(self.result_excel_path):
-            os.remove(self.result_excel_path)
+        try:
+            if os.path.exists(self.result_excel_path):
+                os.remove(self.result_excel_path)
 
-        df_results = pd.DataFrame(self.data)
-        print(df_results)
-        missing_columns = [col for col in self.list_columns if col not in df_results.columns]
-        if missing_columns:
-            raise ValueError(f"The following columns are missing: {missing_columns}")
+            df_results = pd.DataFrame(self.data)
+            missing_columns = [col for col in self.list_columns if col not in df_results.columns]
+            if missing_columns:
+                raise ValueError(f"The following columns are missing: {missing_columns}")
 
-        total_sums = {f"Total {col}": [df_results[col].sum()] for col in missing_columns}
+            total_sums = {f"Total {col}": [df_results[col].sum()] for col in missing_columns}
 
-        df_total = pd.DataFrame(total_sums)
+            df_total = pd.DataFrame(total_sums)
 
-        with pd.ExcelWriter(self.result_excel_path, engine='openpyxl') as writer:
-            df_results.to_excel(writer, sheet_name="Hasil File", index=False)
-            df_total.to_excel(writer, sheet_name="Hasil Total File", index=False)
+            with pd.ExcelWriter(self.result_excel_path, engine='openpyxl') as writer:
+                df_results.to_excel(writer, sheet_name="Hasil File", index=False)
+                df_total.to_excel(writer, sheet_name="Hasil Total File", index=False)
+        except ValueError:
+            raise ValueError("Gagal generate Excel")
