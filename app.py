@@ -6,7 +6,6 @@ import re
 
 from DataProcessor import DataProcessor
 
-
 @app.route('/')
 def index():
     return render_template('index.html')

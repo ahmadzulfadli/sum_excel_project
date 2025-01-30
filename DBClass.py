@@ -6,8 +6,18 @@ import os
 # objek flask
 app = Flask(__name__)
 
-# Akses variabel dari file .env
 load_dotenv()
+
+# Akses variabel dari file .env
+env = os.getenv("FLASK_ENV")
+
+# Load environment variables based on the 'env' argument
+if env == 'production':
+    load_dotenv('.env.production')
+elif env == 'testing':
+    load_dotenv('.env.testing')
+else:  # Default to development
+    load_dotenv('.env.development')
 
 # configurasi app
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')

@@ -34,7 +34,3 @@ from sum_excel_transactions ;
 select *
 from sum_excel_comment;
 
-
-
-
-
