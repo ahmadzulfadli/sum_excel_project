@@ -10,9 +10,9 @@ from GenerateFile import GenerateFile
 
 
 class DataProcessor:
-    def __init__(self, input_transaction_id, input_sheet_name, input_column_list, input_header_data, input_formula = ""):
+    def __init__(self, input_transaction_id, input_sheet_name, input_column_list, input_header_row_number, input_formula = ""):
         self.transaction_id = str(input_transaction_id)
-        self.header_data_row = int(input_header_data)
+        self.header_row_number = max(int(input_header_row_number) - 1, 0)
         self.total_sum_e = 0
         self.total_sum_f = 0
         self.total_sum_g = 0
@@ -41,7 +41,7 @@ class DataProcessor:
     def read_excel(self, file, engine=None):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            return pd.read_excel(file, sheet_name=self.sheet_name, engine=engine, header=self.header_data_row)
+            return pd.read_excel(file, sheet_name=self.sheet_name, engine=engine, header=self.header_row_number)
 
     def process_file(self, file_path, file_name, column_list):
         try:
@@ -113,7 +113,7 @@ class DataProcessor:
             generate_file.generate_graph()
             generate_file.generate_excel()
 
-            extract.rm_file_and_folder()
+            # extract.rm_file_and_folder()
 
 # if __name__ == "__main__":
 #     # ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"

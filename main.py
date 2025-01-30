@@ -75,14 +75,19 @@ def upload_file():
             flash("Gagal memproses data")
             return redirect(url_for('index'))
 
-        filename = f"{transaction_id}.zip"
-        save_path = os.path.join(path_save, filename)
-        file.save(save_path)
+        try:
+            filename = f"{transaction_id}.zip"
+            save_path = os.path.join(path_save, filename)
+            file.save(save_path)
 
-        # Proses file
-        column_list = [col.strip() for col in column_name.split(',')]
-        process = DataProcessor(transaction_id, sheet_name, column_list, header_number, columns_formula)
-        process.run()
+            # Proses file
+            column_list = [col.strip() for col in column_name.split(',')]
+            process = DataProcessor(transaction_id, sheet_name, column_list, header_number, columns_formula)
+            process.run()
+        except Exception as e:
+            print(e)
+            flash("Gagal, Pastikan semua data inputan yang anda masukkan benar dan sesuai dengan panduan")
+            return redirect(url_for('index'))
 
         # Flash message untuk konfirmasi
         flash(f"File berhasil diunggah oleh {name}.")
@@ -144,6 +149,15 @@ def download_img():
         flash('File results belum tersedia.')
         return redirect(url_for('success', status=True, filename=filename))
 
+@app.route('/download-exzip')
+def download_exzip():
+    filename = "contoh"
+    path_save = os.path.join(os.path.dirname(__file__), f"data/exzip/{filename}.zip")
+    if os.path.exists(path_save):
+        return send_file(path_save, as_attachment=True)
+    else:
+        flash('File results belum tersedia.')
+        return redirect(url_for('panduan', status=True, filename=filename))
 
 if __name__ == '__main__':
     app.run()
