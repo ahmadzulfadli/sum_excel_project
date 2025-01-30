@@ -41,6 +41,7 @@ class GenerateFile:
             os.remove(self.result_excel_path)
 
         df_results = pd.DataFrame(self.data)
+        print(df_results)
         missing_columns = [col for col in self.list_columns if col not in df_results.columns]
         if missing_columns:
             raise ValueError(f"The following columns are missing: {missing_columns}")

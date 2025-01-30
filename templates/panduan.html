@@ -38,6 +38,12 @@
                         <p><strong>Format yang diterima:</strong> Hanya file dengan ekstensi <code>.zip</code>.</p>
                         <p><strong>Wajib diisi:</strong> ✅ Ya (Tidak dapat dikosongkan).</p>
                         <p><strong>Tips:</strong> Pastikan file ZIP berisi dokumen Excel yang valid.</p>
+                        <button
+                            type="button"
+                            class="btn btn-primary mt-3"
+                            onclick="location.href='{{ url_for('download_exzip') }}';">
+                            Download Contoh File
+                        </button>
                         <hr>
 
                         <h4>2. Nama Sheet Pada Dokumen</h4>

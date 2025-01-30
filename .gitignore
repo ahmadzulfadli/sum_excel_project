@@ -8,3 +8,5 @@ __pycache__/
 *.png
 *.zip
 .env
+.env.development
+.env.production
