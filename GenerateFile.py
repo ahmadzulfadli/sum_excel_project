@@ -49,7 +49,7 @@ class GenerateFile:
             if missing_columns:
                 raise ValueError(f"The following columns are missing: {missing_columns}")
 
-            total_sums = {f"Total {col}": [df_results[col].sum()] for col in missing_columns}
+            total_sums = {f"Total {col}": [pd.to_numeric(df_results[col]).sum()] for col in self.list_columns}
 
             df_total = pd.DataFrame(total_sums)
 

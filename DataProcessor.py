@@ -1,5 +1,4 @@
 import os
-
 import pandas as pd
 import re
 from sympy import symbols, sympify
@@ -147,29 +146,29 @@ class DataProcessor:
             extract.rm_file_and_folder()
 
 # if __name__ == "__main__":
-# ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
-# # ex = "DC Power PvPV1(W)"
-# name = "Inverter History Report_SMSolar"
-# a = input("Masukkan id: ")
-# b = [col.strip() for col in ex.split(',')]
-# c = input("Masukkan row number: ")
-# proses = DataProcessor(a, name, b, c)
-# proses.run()
-
-# ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
-# # ex = "DC Power PvPV1(W)"
-# name = "Inverter History Report_SMSolar"
-# a = "oktober"
-# b = [col.strip() for col in ex.split(',')]
-# c = 2
-# proses = DataProcessor(a, name, b, c)
-# proses.run()
-
-# ex = "CBAL_BEFORE, CBAL_AFTER"
-# # ex = "DC Power PvPV1(W)"
-# name = "LNMAST"
-# a = input("Masukkan id: ")
-# b = [col.strip() for col in ex.split(',')]
-# c = input("Masukkan row number: ")
-# proses = DataProcessor(a, name, b, c)
-# proses.run()
+#     # ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
+#     # # ex = "DC Power PvPV1(W)"
+#     # name = "Inverter History Report_SMSolar"
+#     # a = input("Masukkan id: ")
+#     # b = [col.strip() for col in ex.split(',')]
+#     # c = input("Masukkan row number: ")
+#     # proses = DataProcessor(a, name, b, c)
+#     # proses.run()
+#
+#     ex = "DC Power PvPV1(W), DC Power PvPV2(W), DC Power PvPV3(W)"
+#     # ex = "DC Power PvPV1(W)"
+#     name = "Inverter History Report_SMSolar"
+#     a = "oktober"
+#     b = [col.strip() for col in ex.split(',')]
+#     c = 29
+#     proses = DataProcessor(a, name, b, c)
+#     proses.run()
+#
+#     # ex = "CBAL_BEFORE, CBAL_AFTER"
+#     # # ex = "DC Power PvPV1(W)"
+#     # name = "LNMAST"
+#     # a = input("Masukkan id: ")
+#     # b = [col.strip() for col in ex.split(',')]
+#     # c = input("Masukkan row number: ")
+#     # proses = DataProcessor(a, name, b, c)
+#     # proses.run()
