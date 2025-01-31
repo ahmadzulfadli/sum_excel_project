@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, redirect, url_for, request, flash, jsonify, send_file
 from dotenv import load_dotenv
+from sqlalchemy.sql import func
 import os
 
 # objek flask
@@ -66,3 +67,18 @@ class SumExcelComment(db.Model):
         self.name = name
         self.email = email
         self.comment = comment
+
+class SumExcelParameterUi(db.Model):
+    __tablename__ = 'sum_excel_parameter_ui'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=True)
+    description = db.Column(db.Text, nullable=True)
+    timestamp = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
+
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+    @staticmethod
+    def get_parameter_max_id():
+        return db.session.query(SumExcelParameterUi).order_by(SumExcelParameterUi.id.desc()).first()

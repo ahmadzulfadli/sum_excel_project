@@ -1,5 +1,4 @@
 from sympy import sympify
-
 from DBClass import *
 import uuid
 import re
@@ -8,7 +7,15 @@ from DataProcessor import DataProcessor
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    lates_parameter = SumExcelParameterUi.get_parameter_max_id()
+    if lates_parameter:
+        data = {
+            "name": lates_parameter.name.capitalize(),
+            "description":lates_parameter.description
+        }
+    else:
+        data = None
+    return render_template('index.html', data=data)
 
 
 @app.route('/upload', methods=['POST'])

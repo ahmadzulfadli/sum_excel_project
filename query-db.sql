@@ -28,9 +28,22 @@ CREATE TABLE sum_excel_comment (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE sum_excel_parameter_ui (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) default NULL,
+  description text default null,
+  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
 select *
-from sum_excel_transactions ;
+from sum_excel_transactions order by id desc ;
 
 select *
 from sum_excel_comment;
+
+select *
+from sum_excel_parameter_ui;
+
+
 

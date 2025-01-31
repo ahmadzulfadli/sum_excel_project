@@ -7,6 +7,17 @@
                     <center>
                         <div class="card-header pb-0 pt-3 bg-transparent">
                             <h2 class="text-capitalize">Sum Data Excel Project</h2>
+                            {% if data %}
+                                <div class="box">
+                                    <h4>{{ data.name }}</h4>
+                                    <p>{{ data.description | safe }}</p>
+                                </div>
+                            {% else %}
+                                <div class="box">
+                                    <h4>Version Latest</h4>
+                                    <p></p>
+                                </div>
+                            {% endif %}
                         </div>
                     </center>
                     <div class="card-body p-3">
